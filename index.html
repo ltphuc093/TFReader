@@ -106,7 +106,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 mb-3">
                                                         <input class="form-control" id="tukhoa" type="text"
-                                                            placeholder=""  />
+                                                            placeholder="" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,12 +115,12 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 mb-3">
                                                         <input class="form-control" id="giatri" type="text"
-                                                            placeholder=""  />
+                                                            placeholder="" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
-                                                <button class="btn btnAdd"><i
+                                                <button class="btn btnAdd" onclick="fnAdd()"><i
                                                         class="fa fa-save"></i>&nbsp;<b>Thêm</b></button>
                                             </div>
                                         </div>
@@ -183,10 +183,22 @@
             table.draw();
         }
 
-        function fnDelete(){
+        function fnDelete() {
             var cfrm = confirm("Xóa dòng?");
-            if(!cfrm){
+            if (!cfrm) {
                 return;
+            }
+        }
+
+        function fnAdd() {
+            var cfrm = confirm("Thêm dòng?");
+            if (!cfrm) {
+                return;
+            }
+            var checkArray = table.column(0).data().toArray();
+            var tukhoa = $("#tukhoa").val();
+            if(checkArray.indexOf(tukhoa) >= 0){
+                
             }
         }
     </script>
