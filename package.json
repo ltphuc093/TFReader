@@ -1,0 +1,46 @@
+{
+  "name": "TFReader",
+  "productName": "TFReader",
+  "description": "Phần mềm đọc file ngôn ngữ",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "Le Thanh Phuc",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "dependencies": {
+    "ajax-request": "^1.2.3",
+    "electron-dl": "^3.4.1",
+    "electron-forge": "^5.2.4",
+    "electron-request": "^1.8.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.64",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
+    "electron": "20.1.4",
+    "electron-rebuild": "^3.2.9",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-reloader": "^1.2.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "./resources/icons/tdt.ico"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "icon": "./resources/icons/tdt.ico"
+          }
+        }
+      ]
+    }
+  },
+  "license": "MIT"
+}
