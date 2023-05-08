@@ -194,6 +194,10 @@
             var tukhoa = $("#tukhoa").val();
             var giatri = $("#giatri").val();
             var iKhoa = checkArray.indexOf(tukhoa);
+            if(giatri == "" || giatri == null){
+                console.log("Vui lòng nhập giá trị!");
+                return;
+            }
             if (iKhoa >= 0) {
                 console.log("Dòng này đã tồn tại: Dòng " + iKhoa);
                 return;
