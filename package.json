@@ -30,13 +30,13 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./resources/icons/tool-icon.png"
+        "icon": "./resources/icons/tool-icon.ico"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "icon": "./resources/icons/tool-icon.png"
+            "icon": "./resources/icons/tool-icon.ico"
           }
         }
       ]

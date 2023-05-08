@@ -26,7 +26,7 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 860,
-    icon: path.join(__dirname, 'resources/icons/tool-icon.png'),
+    icon: path.join(__dirname, 'resources/icons/tool-icon.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
