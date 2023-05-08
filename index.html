@@ -143,7 +143,7 @@
         var table;
         var fileContent;
         var deleteRow = '<span class="btn btn-danger btn-sm" onclick="fnDelete(this)"><i class="fa fa-trash"></i></span>';
-        var fileName =  "";
+        var filePath =  "";
 
         $(document).ready(function () {
             table = $("#dtTable").DataTable();
@@ -151,7 +151,7 @@
 
         $("#fileTranslate").change(function (evt) {
             var f = evt.target.files[0];
-            fileName = f.name;
+            filePath = f.path;
             if (f) {
                 var r = new FileReader();
                 r.onload = function (e) {
@@ -222,7 +222,10 @@
                     fileWriteContent += `  "` + keyword + `": "` + valueT + `",` + lineNew;
                 }
             fileWriteContent += `}`;
-            var result = JSON.parse(await window.FileRes.ExportFileJSON(fileWriteContent, fileName));
+            var result = JSON.parse(await window.FileRes.ExportFileJSON(fileWriteContent, filePath));
+            if(result == true){
+                location.reload();
+            }
         }
     </script>
 </body>

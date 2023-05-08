@@ -29,22 +29,22 @@ ipcRenderer.on('download-success', (event, arg) => {
 
 //FileRes
 contextBridge.exposeInMainWorld('FileRes', {
-  ExportFileJSON: (content, filename) => {
+  ExportFileJSON: (content, filepath) => {
     return new Promise((resolve, reject) => {
       const fs = require("fs");
-      var pathFolder = path.join(__dirname, './FileTF/');
-      var pathFile = path.join(pathFolder, filename);
+      // var pathFolder = path.join(__dirname, './FileTF/');
+      // var pathFile = path.join(pathFolder, filename);
 
-      if (!fs.existsSync(pathFolder)) {
-        fs.mkdirSync(pathFolder, { recursive: true });
-      }
+      // if (!fs.existsSync(pathFolder)) {
+      //   fs.mkdirSync(pathFolder, { recursive: true });
+      // }
 
-      if (filename == "" || filename == null) {
-        alert("Tên file không hợp lệ!");
+      if (filepath == "" || filepath == null) {
+        alert("Đường dẫn không hợp lệ!");
         resolve(false);
       }
 
-      fs.writeFileSync(pathFile, content);
+      fs.writeFileSync(filepath, content);
       resolve(true);
     });
   },
