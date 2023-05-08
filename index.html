@@ -41,21 +41,9 @@
         font-family: Arial, Helvetica, sans-serif;
     }
 
-    .btnXuLy {
+    .button {
         border: 1px solid #1b1b1b;
-        max-width: 20% !important;
-        font-size: 2vh;
-    }
-
-    .btnSave {
-        border: 1px solid #1b1b1b;
-        max-width: 20% !important;
-        font-size: 2vh;
-    }
-
-    .btnAdd {
-        border: 1px solid #1b1b1b;
-        max-width: 20% !important;
+        max-width: 40% !important;
         font-size: 2vh;
     }
 </style>
@@ -83,10 +71,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
-                                                <button class="btn btnXuLy" onclick="fnXuLy()"><i
+                                                <button class="btn button" onclick="fnXuLy()"><i
                                                         class="fa fa-gears"></i>&nbsp;<b>Đọc</b></button>
-                                                <button class="btn btnSave"><i
-                                                        class="fa fa-save"></i>&nbsp;<b>Lưu</b></button>
                                             </div>
                                         </div>
                                     </div>
@@ -120,8 +106,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
-                                                <button class="btn btnAdd" onclick="fnAdd()"><i
+                                                <button class="btn button" onclick="fnAdd()"><i
                                                         class="fa fa-save"></i>&nbsp;<b>Thêm</b></button>
+                                                <button class="btn button" onclick="fnExportJson()"><i class="fa fa-file"></i>&nbsp;<b>Export
+                                                        JSON</b></button>
                                             </div>
                                         </div>
                                     </div>
@@ -149,8 +137,13 @@
     </div>
 
     <script>
+        var keywordColumnIndex = 0;
+        var valueColumnIndex = 1;
+
         var table;
         var fileContent;
+        var deleteRow = '<span class="btn btn-danger btn-sm" onclick="fnDelete(this)"><i class="fa fa-trash"></i></span>';
+        var fileName =  "";
 
         $(document).ready(function () {
             table = $("#dtTable").DataTable();
@@ -158,6 +151,7 @@
 
         $("#fileTranslate").change(function (evt) {
             var f = evt.target.files[0];
+            fileName = f.name;
             if (f) {
                 var r = new FileReader();
                 r.onload = function (e) {
@@ -172,7 +166,6 @@
         function fnXuLy() {
             table.clear().draw();
             var arr = fileContent.replace(/{/g, '').replace(/}/g, '').replace(/,/g, '').replace(/"/g, '').split('\r\n');
-            var deleteRow = '<span class="btn btn-danger btn-sm" onclick="fnDelete()"><i class="fa fa-trash"></i></span>';
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i] != "") {
                     var item = arr[i].split(":");
@@ -183,11 +176,13 @@
             table.draw();
         }
 
-        function fnDelete() {
+        function fnDelete(obj) {
             var cfrm = confirm("Xóa dòng?");
             if (!cfrm) {
                 return;
             }
+            var tr = $(obj).parents('tr');
+            table.row(tr).remove().draw();
         }
 
         function fnAdd() {
@@ -195,11 +190,35 @@
             if (!cfrm) {
                 return;
             }
-            var checkArray = table.column(0).data().toArray();
+            var checkArray = table.column(keywordColumnIndex).data().toArray();
             var tukhoa = $("#tukhoa").val();
-            if(checkArray.indexOf(tukhoa) >= 0){
-                
+            var giatri = $("#giatri").val();
+            var iKhoa = checkArray.indexOf(tukhoa);
+            if (iKhoa >= 0) {
+                console.log("Dòng này đã tồn tại: Dòng " + iKhoa);
+                return;
             }
+            table.row.add([tukhoa, giatri, deleteRow]).draw();
+        }
+
+        var  fnExportJson = async function (){
+            var cfrm = confirm("Lưu file không?");
+            if (!cfrm) {
+                return;
+            }
+            var keywordArray = table.column(keywordColumnIndex).data().toArray();
+            var valueArray = table.column(valueColumnIndex).data().toArray();
+
+            var lineNew = `\r\n`;
+            var fileWriteContent = ``;
+            fileWriteContent += `{` + lineNew;;
+                for(var i = 0; i < keywordArray.length; i++){
+                    var keyword = keywordArray[i];
+                    var valueT = valueArray[i];
+                    fileWriteContent += `  "` + keyword + `": "` + valueT + `",` + lineNew;
+                }
+            fileWriteContent += `}`;
+            var result = JSON.parse(await window.FileRes.ExportFileJSON(fileWriteContent, fileName));
         }
     </script>
 </body>

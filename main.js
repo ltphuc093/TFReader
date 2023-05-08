@@ -28,7 +28,7 @@ function createWindow() {
     height: 860,
     icon: path.join(__dirname, 'resources/icons/tool-icon.png'),
     webPreferences: {
-      // preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: true,
       // "web-security": false
