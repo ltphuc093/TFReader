@@ -167,7 +167,7 @@
                 if (arr[i] != "") {
                     var item = arr[i].split(":");
                     var keyword = item[0].replace(/ /g, '')
-                    table.row.add([keyword, item[1], deleteRow]);
+                    table.row.add([ `<input type='text' class='form-control' name='tukhoa' value='` + keyword.trim() + `' readonly></input>`,`<input type='text' class='form-control'  name='giatri' value='` + item[1].trim() + `'></input>`, deleteRow]);
                 }
             }
             table.draw();
@@ -187,9 +187,13 @@
             if (!cfrm) {
                 return;
             }
-            var checkArray = table.column(keywordColumnIndex).data().toArray();
+            // var checkArray = table.column(keywordColumnIndex).data().toArray();
+            var checkArray = table.column(keywordColumnIndex).$('input').serializeArray().map(function(e){
+                return e.value;
+            });
             var tukhoa = $("#tukhoa").val();
             var giatri = $("#giatri").val();
+
             // var iKhoa = checkArray.indexOf(tukhoa);
             // if(giatri == "" || giatri == null){
             //     console.log("Vui lòng nhập giá trị!");

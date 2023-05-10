@@ -78,7 +78,7 @@ contextBridge.exposeInMainWorld('FileRes', {
       if (iKhoa >= 0) {
         alert("Từ khóa đã tồn tại: Dòng " + iKhoa);
         resolve(false);
-    }
+      }
       resolve(true);
     });
   },
