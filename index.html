@@ -23,7 +23,9 @@
         max-width: 100% !important;
         font-size: 2vh;
     }
-    .card, .card-container{
+
+    .card,
+    .card-container {
         height: 100%;
     }
 </style>
@@ -117,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <table id="dtTable">
                         <thead>
                             <tr>
@@ -167,7 +169,7 @@
                 if (arr[i] != "") {
                     var item = arr[i].split(":");
                     var keyword = item[0].replace(/ /g, '')
-                    table.row.add([ `<input type='text' class='form-control' name='tukhoa' value='` + keyword.trim() + `' readonly></input>`,`<input type='text' class='form-control'  name='giatri' value='` + item[1].trim() + `'></input>`, deleteRow]);
+                    table.row.add([`<input type='text' class='form-control' name='tukhoa' value='` + keyword.trim() + `' readonly></input>`, `<input type='text' class='form-control'  name='giatri' value='` + item[1].trim() + `'></input>`, deleteRow]);
                 }
             }
             table.draw();
@@ -188,7 +190,7 @@
                 return;
             }
             // var checkArray = table.column(keywordColumnIndex).data().toArray();
-            var checkArray = table.column(keywordColumnIndex).$('input').serializeArray().map(function(e){
+            var checkArray = table.$('input').serializeArray().filter(v => v.name === "tukhoa").map(function (e) {
                 return e.value;
             });
             var tukhoa = $("#tukhoa").val();
@@ -206,7 +208,7 @@
 
             var result = JSON.parse(await window.FileRes.AddRow(tukhoa, giatri, checkArray));
             if (result) {
-                table.row.add([tukhoa, giatri, deleteRow]).draw();
+                table.row.add([`<input type='text' class='form-control' name='tukhoa' value='` + tukhoa.trim() + `' readonly></input>`, `<input type='text' class='form-control'  name='giatri' value='` + giatri.trim() + `'></input>`, deleteRow]).draw();
             }
         }
 
@@ -215,10 +217,10 @@
             if (!cfrm) {
                 return;
             }
-            var keywordArray = table.column(keywordColumnIndex).$('input').serializeArray().map(function(e){
+            var keywordArray = table.$('input').serializeArray().filter(v => v.name === "tukhoa").map(function (e) {
                 return e.value;
             });
-            var valueArray = table.column(valueColumnIndex).$('input').serializeArray().map(function(e){
+            var valueArray = table.$('input').serializeArray().filter(v => v.name === "giatri").map(function (e) {
                 return e.value;
             });
 
@@ -228,7 +230,7 @@
             for (var i = 0; i < keywordArray.length; i++) {
                 var keyword = keywordArray[i];
                 var valueT = valueArray[i].trim();
-                if(i == keywordArray.length - 1){
+                if (i == keywordArray.length - 1) {
                     fileWriteContent += `  "` + keyword + `": "` + valueT + `"` + lineNew;
                 }
                 else {
