@@ -189,22 +189,11 @@
             if (!cfrm) {
                 return;
             }
-            // var checkArray = table.column(keywordColumnIndex).data().toArray();
             var checkArray = table.$('input').serializeArray().filter(v => v.name === "tukhoa").map(function (e) {
                 return e.value;
             });
             var tukhoa = $("#tukhoa").val();
             var giatri = $("#giatri").val();
-
-            // var iKhoa = checkArray.indexOf(tukhoa);
-            // if(giatri == "" || giatri == null){
-            //     console.log("Vui lòng nhập giá trị!");
-            //     return;
-            // }
-            // if (iKhoa >= 0) {
-            //     console.log("Dòng này đã tồn tại: Dòng " + iKhoa);
-            //     return;
-            // }
 
             var result = JSON.parse(await window.FileRes.AddRow(tukhoa, giatri, checkArray));
             if (result) {
