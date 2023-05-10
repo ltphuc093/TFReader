@@ -6,9 +6,9 @@ const {download} = require('electron-dl');
 
 //Chỉ bật khi dev
 //Only dev
-require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
-});
+// require('electron-reload')(__dirname, {
+//   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+// });
 
 // if (require('electron-squirrel-startup')) app.quit();
 
