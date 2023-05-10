@@ -215,8 +215,12 @@
             if (!cfrm) {
                 return;
             }
-            var keywordArray = table.column(keywordColumnIndex).data().toArray();
-            var valueArray = table.column(valueColumnIndex).data().toArray();
+            var keywordArray = table.column(keywordColumnIndex).$('input').serializeArray().map(function(e){
+                return e.value;
+            });
+            var valueArray = table.column(valueColumnIndex).$('input').serializeArray().map(function(e){
+                return e.value;
+            });
 
             var lineNew = `\r\n`;
             var fileWriteContent = ``;
