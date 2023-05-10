@@ -32,13 +32,6 @@ contextBridge.exposeInMainWorld('FileRes', {
   ExportFileJSON: (content, filepath) => {
     return new Promise((resolve, reject) => {
       const fs = require("fs");
-      // var pathFolder = path.join(__dirname, './FileTF/');
-      // var pathFile = path.join(pathFolder, filename);
-
-      // if (!fs.existsSync(pathFolder)) {
-      //   fs.mkdirSync(pathFolder, { recursive: true });
-      // }
-
       if (filepath == "" || filepath == null) {
         alert("Đường dẫn không hợp lệ!");
         resolve(false);
@@ -56,14 +49,6 @@ contextBridge.exposeInMainWorld('FileRes', {
 
   AddRow: (keyword, value, keywordArray) => {
     return new Promise((resolve, reject) => {
-      const fs = require("fs");
-      // var pathFolder = path.join(__dirname, './FileTF/');
-      // var pathFile = path.join(pathFolder, filename);
-
-      // if (!fs.existsSync(pathFolder)) {
-      //   fs.mkdirSync(pathFolder, { recursive: true });
-      // }
-
       if (keyword == "" || keyword == null) {
         alert("Vui lòng nhập từ khóa!");
         resolve(false);
