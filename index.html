@@ -14,37 +14,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <style>
-    .nav button {
-        font-size: 2.5vh;
-        font-weight: bold;
-        height: 50px;
-        font-family: 'Times New Roman', Times, serif;
-        margin-bottom: 5px;
-    }
-
-    .nav button[aria-selected="true"],
-    .nav button.active {
-        background: #005457 !important;
-    }
-
-
-    .nav button[aria-selected="true"]:hover {
-        background: #005457;
-    }
-
-    .nav button[aria-selected="false"] {
-        background-color: #1b1b1b !important;
-        color: white;
-    }
-
     body {
         font-family: Arial, Helvetica, sans-serif;
     }
 
     .button {
         border: 1px solid #1b1b1b;
-        max-width: 40% !important;
+        max-width: 100% !important;
         font-size: 2vh;
+    }
+    .card, .card-container{
+        height: 100%;
     }
 </style>
 </head>
@@ -54,13 +34,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <!-- Menu thao tác -->
-                <div class="row">
-                    <div class="col-sm-6 mb-2">
+                <div class="row mb-3">
+                    <div class="col-sm-6 mb-2 card-container">
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title mb-3"><b>Thao tác</b></h5>
+                                        <h5 class="card-title mb-3"><b>Nhập file</b></h5>
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="row">
@@ -81,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 mb-2">
+                    <div class="col-sm-4 mb-2 card-container">
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="card">
@@ -92,7 +72,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 mb-3">
                                                         <input class="form-control" id="tukhoa" type="text"
-                                                            placeholder="" />
+                                                            placeholder="Keyword" title="Keyword" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,15 +81,34 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 mb-3">
                                                         <input class="form-control" id="giatri" type="text"
-                                                            placeholder="" />
+                                                            title="Value" placeholder="Value" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12">
                                                 <button class="btn button" onclick="fnAdd()"><i
-                                                        class="fa fa-save"></i>&nbsp;<b>Thêm</b></button>
-                                                <button class="btn button" onclick="fnExportJson()"><i class="fa fa-file"></i>&nbsp;<b>Export
-                                                        JSON</b></button>
+                                                        class="fa fa-plus"></i>&nbsp;<b>Thêm</b></button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 mb-2 card-container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3"><b>Thao tác</b></h5>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <button class="btn button" onclick="fnSaveFile()"><i
+                                                        class="fa fa-save"></i>&nbsp;<b>Save
+                                                    </b></button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -133,8 +132,6 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
 
     <script>
         var keywordColumnIndex = 0;
@@ -143,7 +140,7 @@
         var table;
         var fileContent;
         var deleteRow = '<span class="btn btn-danger btn-sm" onclick="fnDelete(this)"><i class="fa fa-trash"></i></span>';
-        var filePath =  "";
+        var filePath = "";
 
         $(document).ready(function () {
             table = $("#dtTable").DataTable();
@@ -185,7 +182,7 @@
             table.row(tr).remove().draw();
         }
 
-        function fnAdd() {
+        var fnAdd = async function () {
             var cfrm = confirm("Thêm dòng?");
             if (!cfrm) {
                 return;
@@ -193,19 +190,23 @@
             var checkArray = table.column(keywordColumnIndex).data().toArray();
             var tukhoa = $("#tukhoa").val();
             var giatri = $("#giatri").val();
-            var iKhoa = checkArray.indexOf(tukhoa);
-            if(giatri == "" || giatri == null){
-                console.log("Vui lòng nhập giá trị!");
-                return;
+            // var iKhoa = checkArray.indexOf(tukhoa);
+            // if(giatri == "" || giatri == null){
+            //     console.log("Vui lòng nhập giá trị!");
+            //     return;
+            // }
+            // if (iKhoa >= 0) {
+            //     console.log("Dòng này đã tồn tại: Dòng " + iKhoa);
+            //     return;
+            // }
+
+            var result = JSON.parse(await window.FileRes.AddRow(tukhoa, giatri, checkArray));
+            if (result) {
+                table.row.add([tukhoa, giatri, deleteRow]).draw();
             }
-            if (iKhoa >= 0) {
-                console.log("Dòng này đã tồn tại: Dòng " + iKhoa);
-                return;
-            }
-            table.row.add([tukhoa, giatri, deleteRow]).draw();
         }
 
-        var  fnExportJson = async function (){
+        var fnSaveFile = async function () {
             var cfrm = confirm("Lưu file không?");
             if (!cfrm) {
                 return;
@@ -216,14 +217,19 @@
             var lineNew = `\r\n`;
             var fileWriteContent = ``;
             fileWriteContent += `{` + lineNew;;
-                for(var i = 0; i < keywordArray.length; i++){
-                    var keyword = keywordArray[i];
-                    var valueT = valueArray[i];
+            for (var i = 0; i < keywordArray.length; i++) {
+                var keyword = keywordArray[i];
+                var valueT = valueArray[i].trim();
+                if(i == keywordArray.length - 1){
+                    fileWriteContent += `  "` + keyword + `": "` + valueT + `"` + lineNew;
+                }
+                else {
                     fileWriteContent += `  "` + keyword + `": "` + valueT + `",` + lineNew;
                 }
+            }
             fileWriteContent += `}`;
             var result = JSON.parse(await window.FileRes.ExportFileJSON(fileWriteContent, filePath));
-            if(result == true){
+            if (result == true) {
                 location.reload();
             }
         }
