@@ -11,13 +11,15 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "setup": "electron-installer-windows --src dist/app-win32-x64/ --dest dist/installers/"
   },
   "dependencies": {
     "ajax-request": "^1.2.3",
     "electron-dl": "^3.4.1",
     "electron-forge": "^5.2.4",
-    "electron-request": "^1.8.1"
+    "electron-request": "^1.8.1",
+    "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.64",
@@ -25,7 +27,8 @@
     "electron": "20.1.4",
     "electron-rebuild": "^3.2.9",
     "electron-reload": "^2.0.0-alpha.1",
-    "electron-reloader": "^1.2.3"
+    "electron-reloader": "^1.2.3",
+    "electron-winstaller": "^5.1.0"
   },
   "config": {
     "forge": {
